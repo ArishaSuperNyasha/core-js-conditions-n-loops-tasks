@@ -501,35 +501,45 @@ function shuffleChar(str, iterations) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number, to = true, j = 0 */) {
-  throw new Error('Not implemented');
-  /*
-  if (to === true) {
-    for (let i = 1; number > 10 ** i; i += 1) {
-      let other = number % 10 ** (i - 1);
-      if (i === 1) other = 0;
-      const ed = ((number % 10 ** i) - other) / 10 ** (i - 1);
-      const des =
-        ((number % 10 ** (i + 1)) - (other + ed * 10 ** (i - 1))) / 10 ** i;
-      if (ed > des && to) {
-        const newN = number - (number % 10 ** (i + 1)) + ed * 10 ** i;
-        const tot = des * 10 ** (i - 1) + other;
-        return newN + getNearestBigger(tot, false, i);
+function getNearestBigger(number) {
+  const num = number;
+  let min = 10;
+  for (let i = 1; num > 10 ** i; i += 1) {
+    const other = num % 10 ** (i - 1);
+    const ed = ((num % 10 ** i) - other) / 10 ** (i - 1);
+    const des =
+      ((num % 10 ** (i + 1)) - (other + ed * 10 ** (i - 1))) / 10 ** i;
+    if (ed > des) {
+      if (!(min < ed && min > des)) min = ed;
+      const newN = num - (num % 10 ** (i + 1)) + min * 10 ** i;
+
+      let a = [des];
+      if (min !== ed) {
+        a.length += 1;
+        a[1] = ed;
       }
+      const alen = a.length;
+      const s = `${other}`;
+      let x = 0;
+      for (let k = 0; k < s.length; k += 1) {
+        if (min !== ed && `${min}` === s[k]) {
+          min = -100;
+          x = 1;
+        } else {
+          a.length += 1;
+          a[k + alen - x] = s[k - x];
+        }
+      }
+      const res = sortByAsc(a);
+      a = 0;
+      for (let k = 0; k < res.length; k += 1) {
+        a += res[res.length - 1 - k] * 10 ** k;
+      }
+      return a + newN;
     }
+    if (min > ed) min = ed;
   }
-
-  //const other = number % 10 ** j;
-  //const bils = Math.floor(number / 10 ** j);
-  //const mens =  Math.floor(number / 10 ** (j - 1));
-  //if (bils > mens) {
-  //  return mens * 10 ** i
-  //}
-  //return  + getNearestBigger(tot, false);
-
   return number;
-
-  */
 }
 
 module.exports = {
