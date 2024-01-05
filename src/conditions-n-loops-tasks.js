@@ -527,7 +527,7 @@ function getNearestBigger(number) {
           x = 1;
         } else {
           a.length += 1;
-          a[k + alen - x] = s[k - x];
+          a[k + alen - x] = s[k];
         }
       }
       const res = sortByAsc(a);
@@ -537,7 +537,7 @@ function getNearestBigger(number) {
       }
       return a + newN;
     }
-    if (min > ed) min = ed;
+    if (min > ed && ed !== 0) min = ed;
   }
   return number;
 }
