@@ -424,64 +424,26 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
-  /*
-  function merge(left, right) {
-    const sortedArr = [];
-    let li = 0;
-    let ri = 0;
-    let len = 0;
-    for (let i = 0; i < left.length + right.length; i += 1) {
-      len += 1;
-      sortedArr.length = len;
-      if (left[li] === undefined) {
-        sortedArr[i] = right[ri];
-        ri += 1;
-      } else if (right[ri] === undefined) {
-        sortedArr[i] = left[li];
-        li += 1;
-      } else if (left[li] < right[ri]) {
-        sortedArr[i] = left[li];
-        li += 1;
-      } else if (left[li] > right[ri]) {
-        sortedArr[i] = right[ri];
-        ri += 1;
-      } else if (left[li] === right[ri]) {
-        sortedArr[i] = right[ri];
-        ri += 1;
-        i += 1;
-        len += 1;
-        sortedArr.length = len;
-        sortedArr[i] = left[li];
-        li += 1;
+function sortByAsc(arr) {
+  const mass = arr;
+  function quickSort(start = -1, end = mass.length - 1) {
+    let prev = start;
+
+    if (end < 1) return;
+    if (end - start < 2) return;
+
+    for (let i = start + 1; i <= end; i += 1) {
+      if (mass[i] < mass[end] || i === end) {
+        prev += 1;
+        [mass[i], mass[prev]] = [mass[prev], mass[i]];
       }
     }
-    return [...sortedArr];
+    quickSort(start, prev - 1);
+    quickSort(prev, end);
   }
 
-  function mySlice(a, indStart, indEnd = a.length) {
-    const res = [];
-    const len = indEnd - indStart;
-    if (len < 1) return [];
-    res.length = len;
-    for (let i = 0; i < len; i += 1) {
-      res[i] = a[indStart + i];
-    }
-    return res;
-  }
-
-  function mergeSort(a) {
-    if (a.length <= 1) return a;
-    const center = Math.floor(a.length / 2);
-
-    const left = mergeSort(mySlice(a, 0, center));
-    const right = mergeSort(mySlice(a, center));
-    return merge(left, right);
-  }
-
-  return mergeSort(arr);
-  */
+  quickSort();
+  return arr;
 }
 
 /**
